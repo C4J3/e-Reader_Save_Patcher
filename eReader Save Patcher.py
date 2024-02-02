@@ -39,6 +39,8 @@ def prog():
     with open(outfile, 'wb') as prod:
         prod.write(outbin)
 
+    return (outfile)
+
 #My byte reader function. Give it a range of addresses to look up and a file to look them up in.
 def byter(range, book):
 
@@ -56,4 +58,4 @@ def bytew(range, calli, bin):
     return bin
 
 #Actually does something!
-prog()
+print("Success! You can find your patched save file at: " +prog())
