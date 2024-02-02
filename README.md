@@ -12,7 +12,7 @@ Instructions:
 1. Stick 'eReader Save Patcher.py' in a folder (preferably somewhere like ./Documents/ereader patcher or ./Downloads/ereader patcher)
 2. Put a copy of a save file with your eReaders callibration data in the same location. Basically just dump a save of your card before you do anything that might break it.
 3. Put a copy of a save file that you want to use on your eReader in the same location.
-4. Open 'eReader Save Patcher.py ' in a terminal window (powershell, command prompt, a linux one probably works)
+4. Open 'eReader Save Patcher.py ' in a terminal window (powershell, command prompt, a linux one probably works) by typing something like `python '.\eReader Save Patcher.py'` or whatever your equivalent is.
 5. Follow the prompts on screen. It asks for the names of: The callibration data holding save, The save you want to patch, The file you want the output save to be called. In that order.
 6. Write the output file onto your eReader with whatever tool you prefer.
 
