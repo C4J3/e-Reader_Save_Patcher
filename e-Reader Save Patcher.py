@@ -1,4 +1,4 @@
-# GBA eReader(+) Save File Patcher. Version 3.0.
+# GBA eReader(+) Save File Patcher. Version 0.2.0-a.
 
 # Import required libraries
 import os
