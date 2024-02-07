@@ -9,7 +9,7 @@ A save file that doesn't break your e-Reader.
 A terminal interface and folders and such.
 Instructions:
 
-1. Stick 'e-Reader Save Patcher.py' into a folder (preferably somewhere like `./Documents/ereader patcher` or `./Downloads/ereader patcher`)
+1. Stick `e-Reader_Save_Patcher.py` into a folder (preferably somewhere like `./Documents/ereader patcher` or `./Downloads/ereader patcher`)
 2. Put a copy of a save file with your eReaders callibration data in the same location. Basically just dump a save of your card before you do anything that might break it.
 3. Put a copy of a save file that you want to use on your eReader in the same location.
 4. Open 'e-Reader Save Patcher.py ' in a terminal window (powershell, command prompt, a linux one probably works) by typing something like `python '.\eReader Save Patcher.py'` or whatever your equivalent is.
@@ -22,6 +22,6 @@ Most of this code from me misunderstanding ChatGPT and a lot of duckduckgoing...
 
 Please don't submit pull requests unless they are simple. I won't understand. Fork this and run wild!
 
-V3 now exists.... 
+V0.2.0-a now exists.... 
 
 It now creates a JSON file that it can refer to between runs so you can patch loads of saves slightly more quickly if you so desire... I need to get a life...
