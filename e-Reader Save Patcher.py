@@ -161,8 +161,8 @@ def main():
     cfg = config_init()
 
     # If the config is new, confirm succesful initation of script and completion of config file.
-    if cfg['Flags']['initiated'] == False:
-        cfg['Flags']['initiated'] = True
+    if cfg['Flags']['initialised'] == False:
+        cfg['Flags']['initialised'] = True
         config_file_writer(cfg)
 
     # Get the callibration data from a save file.
