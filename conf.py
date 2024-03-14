@@ -1,57 +1,82 @@
 import json
-from os import path
+import myLib
+import os
 
 Script_Version = "1.0"
-Config_file = (f'{path.splitext(path.basename(path.abspath(__file__)))[0]}.json')
+Config_file = (f'{os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]}.json')
 
-# Try and make sure there is something resembling a valid config file available. If so load it into memory. If not, run config_maker.
+# I gave up. Need this everywhere but if I make it global it all breaks. This is the best I could come up with.
+def bad():
+    from patcher import Script_Version as patcher_ver
+    from myLib import Script_Version as myLib_ver
+    from files import Script_Version as files_ver
+    
+    present_scripts = {
+        'patcher.py': patcher_ver,
+        'myLib.py': myLib_ver,
+        'files.py': files_ver,
+        'conf.py':  Script_Version
+    }
+    
+    return present_scripts
+
+# If the config exists but is bad we'll ask the user what they want to create a new config. If they don't say yes we terminate the program.
+def dud_config(passthrough):
+    
+    if myLib.reuse("Would you like to create a new config? (THIS WILL DELETE THE CURRENT ONE IF IT IS PRESENT!)") is True:
+        return config_maker(passthrough)
+    else:
+        print("Terminating script.")
+        exit()
+
+# Try and make sure we have some kind of valid configuration file. Loads of things to do but it should do enough of them.
 def config_init():
 
     # If there is no config file, make a new one.
-    if not path.exists(Config_file):
-        return config_maker()
-    
-    # If there is a config file, try and load it. If it gives a JSON Decode error, make a new one. If it doesn't give the error AND it has the write version number. Then we can actually use it. Hooray!
+    if not os.path.exists(Config_file):
+        print("Generating config...")
+        return config_maker(bad())
+
+    # If there is a config file, try and load it. If it gives a JSON Decode error, make a new one. If it doesn't give the error AND it has the write script number. Then we can actually use it. Hooray! 
     with open(Config_file, 'r') as cfg:
         try:
             dat = json.load(cfg)
         except json.JSONDecodeError:
-            return config_maker()
-        
-        json_versions = dat['Metadata']
-        from patcher import Script_Version as patcher_ver
-        from myLib import Script_Version as myLib_ver
-        from files import Script_Version as files_ver
+            print("Bad config file found.")
+            return dud_config(bad())
 
-        script_versions = dict([('patcher.py_version', patcher_ver), ('myLib.py_version', myLib_ver), ('files.py_version', files_ver), ('conf.py_version', Script_Version)])
-        if json_versions != script_versions:
-            print("Error. Script version mismatch.")
-            return config_maker
-        else:
-            return dat
-        '''if dat['Metadata']['conf.py_version'] == Script_Version and dat['Flags']['initialised']:
-            return dat'''
+    script_scripts = dict([('patcher.py', "1.0"), ('myLib.py', "1.0"), ('files.py', "1.0"), ('conf.py', Script_Version)])
+    json_scripts = dat['Metadata']
+    present_scripts = bad()
     
-    # If all else fails, just make a new one.
-    return config_maker()
+    # Import each scripts version number. Kind of obvious in hindsight but importing them all at the start breaks things with circular references...
+    if script_scripts != present_scripts:
+        print(f"conf.py is expecting {script_scripts}. The scripts present are {present_scripts}. Please correct this before proceeding.\nTerminating...")
+        exit()
+
+    for script in json_scripts:
+        print(f"testing {script} script")
+        try:
+            if json_scripts[script] != script_scripts[script]:
+                print(f"Error. {script} does not match.")
+                return dud_config()
+        except KeyError:
+            print("Invalid or incompatible config JSON. Please correct or remove the config JSON from the current directory.")
+            return dud_config
+        else:
+            print(f"Script {script} verions match. Proceeding...")
+        print("All scripts match, proceeding to main program.")    
+        return dat
 
 # Make a config following my default config format. Then write it to disk and pass it back to the main program.
-def config_maker():
-
-    # Import each scripts version number. Kind of obvious in hindsight but importing them all at the start breaks things with circular references...
-    from patcher import Script_Version as patcher_ver
-    from myLib import Script_Version as myLib_ver
-    from files import Script_Version as files_ver
+def config_maker(default_dict):
 
     # This is what the json file should look like, formatted and all.
     cfg = {
     'Metadata':
-    {
-        'patcher.py_version': patcher_ver,
-        'myLib.py_version': myLib_ver,
-        'files.py_version': files_ver,
-        'conf.py_version':  Script_Version
-    },
+
+    default_dict,
+
     'Flags': 
     {
         'initialised':       False,
