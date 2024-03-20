@@ -35,8 +35,7 @@ cfg['Flags']['filed'] = True
 conf.config_file_writer(cfg)
 
 # Overwrite the new save with the calibration data in memory.
-in_bin[cal_loc['lower_start']:cal_loc['lower_end']] = cal_bin
-in_bin[cal_loc['upper_start']:cal_loc['upper_end']] = cal_bin
+in_bin[cal_loc['lower_start']:cal_loc['lower_end']], in_bin[cal_loc['upper_start']:cal_loc['upper_end']] = cal_bin, cal_bin
 
 # Write the patched save data to disk.
 myLib.write_bytes_to_file(in_bin, out_file)

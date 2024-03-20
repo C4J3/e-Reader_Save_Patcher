@@ -59,10 +59,10 @@ def config_init():
         try:
             if json_scripts[script] != script_scripts[script]:
                 print(f"Error. {script} does not match.")
-                return dud_config()
+                return dud_config(present_scripts)
         except KeyError:
             print("Invalid or incompatible config JSON. Please correct or remove the config JSON from the current directory.")
-            return dud_config
+            return dud_config(present_scripts)
         else:
             print(f"Script {script} verions match. Proceeding...")
         print("All scripts match, proceeding to main program.")    
